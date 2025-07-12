@@ -1,9 +1,6 @@
-
-width = 10
-height = 5
-
-
-area = width * height
+principal = 1000
+rate = 0.05
+time = 3
 
 
-print(f"The area of the rectangle is: {area}")
+interest = principal * rate * time
