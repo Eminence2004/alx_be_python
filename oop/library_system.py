@@ -1,46 +1,38 @@
-from library_system import Book, EBook, PrintBook, Library
+class Book:
+    def __init__(self, title: str, author: str):
+        self.title = title
+        self.author = author
 
-def run_tests():
-    
-    b = Book("Pride and Prejudice", "Jane Austen")
-    assert b.title == "Pride and Prejudice", "Book title initialization failed"
-    assert b.author == "Jane Austen", "Book author initialization failed"
+    def __str__(self):
+        return f"Book: {self.title} by {self.author}"
 
-    e = EBook("Snow Crash", "Neal Stephenson", 500)
-    assert e.title == "Snow Crash", "EBook title initialization failed"
-    assert e.author == "Neal Stephenson", "EBook author initialization failed"
-    assert e.file_size == 500, "EBook file_size initialization failed"
 
-    p = PrintBook("The Catcher in the Rye", "J.D. Salinger", 234)
-    assert p.title == "The Catcher in the Rye", "PrintBook title initialization failed"
-    assert p.author == "J.D. Salinger", "PrintBook author initialization failed"
-    assert p.page_count == 234, "PrintBook page_count initialization failed"
+class EBook(Book):
+    def __init__(self, title: str, author: str, file_size: int):
+        super().__init__(title, author)
+        self.file_size = file_size
 
-    # Test Library methods
-    library = Library()
-    library.add_book(b)
-    library.add_book(e)
-    library.add_book(p)
+    def __str__(self):
+        return f"EBook: {self.title} by {self.author}, File Size: {self.file_size}KB"
 
-    # Capture output of list_books()
-    import io
-    import sys
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    library.list_books()
-    sys.stdout = sys.__stdout__
 
-    output = captured_output.getvalue().strip().split("\n")
+class PrintBook(Book):
+    def __init__(self, title: str, author: str, page_count: int):
+        super().__init__(title, author)
+        self.page_count = page_count
 
-    expected_output = [
-        "Book: Pride and Prejudice by Jane Austen",
-        "EBook: Snow Crash by Neal Stephenson, File Size: 500KB",
-        "PrintBook: The Catcher in the Rye by J.D. Salinger, Page Count: 234"
-    ]
+    def __str__(self):
+        return f"PrintBook: {self.title} by {self.author}, Page Count: {self.page_count}"
 
-    assert output == expected_output, f"Output mismatch.\nExpected:\n{expected_output}\nGot:\n{output}"
 
-    print(" All checks passed for Book, EBook, PrintBook, and Library!")
+class Library:
+    def __init__(self):
+        self.books = []
 
-if __name__ == "__main__":
-    run_tests()
+    def add_book(self, book: Book):
+        self.books.append(book)
+
+    def list_books(self):
+        for book in self.books:
+            print(book)
+
